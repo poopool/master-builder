@@ -1,0 +1,32 @@
+{
+    "builders":[{
+        "type": "docker",
+        "image": "ubuntu:14.04",
+        "commit": true,
+        "changes": [
+                "EXPOSE 80",
+                "ENTRYPOINT /usr/bin/supervisord"
+        ]
+    }],
+    "provisioners":[
+        {
+            "type": "shell",
+            "inline": ["apt-get -y update; apt-get install -y curl"]
+        },
+        {
+            "type": "chef-solo",
+            "cookbook_paths": ["./cookbooks/"],
+            "install_command":"curl -L https://www.opscode.com/chef/install.sh | bash",
+            "execute_command":"chef-solo -c {{.ConfigPath}} -j {{.JsonPath}}",
+            "run_list": "recipe[awesome_customers_ubuntu]",
+            "prevent_sudo": true
+        }
+    ],
+    "post-processors": [
+        {
+            "type": "docker-tag",
+            "repository": "chef-packer/awesome-customers-app",
+            "tag": "0.1"
+        }
+    ]
+}

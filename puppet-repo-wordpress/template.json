@@ -1,0 +1,33 @@
+{
+    "builders":[{
+        "type": "docker",
+        "image": "ubuntu-upstart:14.04",
+        "commit": true,
+        "changes": [
+                "EXPOSE 80",
+                "ENTRYPOINT /usr/bin/supervisord"
+        ]
+    }],
+    "provisioners":[
+        {
+            "type": "shell",
+            "script": "install-puppet.sh"
+        },
+        {
+            "type": "puppet-masterless",
+            "manifest_file": "install.pp",
+            "module_paths": [
+                "modules"
+            ],
+            "puppet_bin_dir": "/usr/bin/",
+            "prevent_sudo": true
+        }
+    ],
+    "post-processors": [
+        {
+            "type": "docker-tag",
+            "repository": "puppet-packer/wordpress",
+            "tag": "0.2"
+        }
+    ]
+}
