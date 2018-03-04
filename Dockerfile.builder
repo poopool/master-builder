@@ -1,6 +1,6 @@
 FROM ubuntu:14.04
 
-MAINTAINER Pouya Na <pouya@applariat.com>
+MAINTAINER Pouya Na <poopool>
 
 COPY ./builder.sh /
 

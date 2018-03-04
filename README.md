@@ -38,4 +38,4 @@ itself and needs to have config scripts from supported tools mounted as a volume
 
 ### Who do I talk to? ###
 
-* pouya@applariat.com
+* Your imaginary friend
